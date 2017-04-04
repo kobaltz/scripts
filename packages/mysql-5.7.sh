@@ -81,6 +81,9 @@ key_buffer		= 16M
   ./bin/mysqld_safe --defaults-file="${MYSQL_DIR}/my.cnf" &
   sleep 10
 )
+
+MYSQL_VERSION=${MYSQL_VERSION:="5.7.17"}
+MYSQL_PORT=${MYSQL_PORT:="3307"}
 MYSQL_DIR=${MYSQL_DIR:=$HOME/mysql-$MYSQL_VERSION}
 
 "${MYSQL_DIR}/bin/mysql" --defaults-file="${MYSQL_DIR}/my.cnf" -u "${MYSQL_USER}" -e "SET PASSWORD FOR root@'localhost' = PASSWORD('${MYSQL_PASSWORD}');"
