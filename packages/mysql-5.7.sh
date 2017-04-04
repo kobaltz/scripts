@@ -18,8 +18,8 @@ MYSQL_DIR=${MYSQL_DIR:=$HOME/mysql-$MYSQL_VERSION}
 CACHED_DOWNLOAD="${HOME}/cache/mysql-${MYSQL_VERSION}-linux-glibc2.5-x86_64.tar.gz"
 
 mkdir -p "${MYSQL_DIR}"
-wget --output-document "${CACHED_DOWNLOAD}" "https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-${MYSQL_VERSION}-linux-glibc2.5-x86_64.tar.gz"
-tar -zxvf "${CACHED_DOWNLOAD}" --directory "${MYSQL_DIR}"
+wget --continue --no-clobber --output-document "${CACHED_DOWNLOAD}" "https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-${MYSQL_VERSION}-linux-glibc2.5-x86_64.tar.gz"
+tar -zxvf "${CACHED_DOWNLOAD}" --strip-components=1 --directory "${MYSQL_DIR}"
 mkdir -p "${MYSQL_DIR}/data"
 mkdir -p "${MYSQL_DIR}/socket"
 mkdir -p "${MYSQL_DIR}/log"
