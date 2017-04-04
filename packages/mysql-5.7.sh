@@ -15,11 +15,13 @@ MYSQL_PORT=${MYSQL_PORT:="3307"}
 
 set -e
 MYSQL_DIR=${MYSQL_DIR:=$HOME/mysql-$MYSQL_VERSION}
-CACHED_DOWNLOAD="${HOME}/cache/mysql-${MYSQL_VERSION}-linux-glibc2.5-x86_64.tar.gz"
 
+rm -rf "${MYSQL_DIR}/cache"
+CACHED_DOWNLOAD="${HOME}/cache/mysql-${MYSQL_VERSION}-linux-glibc2.5-x86_64.tar.gz"
+mkdir -p "${MYSQL_DIR}/cache"
 mkdir -p "${MYSQL_DIR}"
 wget --output-document "${CACHED_DOWNLOAD}" "https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-${MYSQL_VERSION}-linux-glibc2.5-x86_64.tar.gz"
-tar -zxf "${CACHED_DOWNLOAD}" --strip-components=1 --directory "${MYSQL_DIR}"
+tar -xaf "${CACHED_DOWNLOAD}" --strip-components=1 --directory "${MYSQL_DIR}"
 mkdir -p "${MYSQL_DIR}/data"
 mkdir -p "${MYSQL_DIR}/socket"
 mkdir -p "${MYSQL_DIR}/log"
@@ -71,8 +73,6 @@ max_allowed_packet	= 16M
 [isamchk]
 key_buffer		= 16M
 " > "${MYSQL_DIR}/my.cnf"
-
-export MYSQL_DIR=${MYSQL_DIR:=$HOME/mysql-$MYSQL_VERSION}
 
 "${MYSQL_DIR}/bin/mysqld" --defaults-file="${MYSQL_DIR}/my.cnf" --initialize-insecure
 
