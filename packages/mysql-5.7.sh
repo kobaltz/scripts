@@ -72,6 +72,8 @@ max_allowed_packet	= 16M
 key_buffer		= 16M
 " > "${MYSQL_DIR}/my.cnf"
 
+export MYSQL_DIR=${MYSQL_DIR:=$HOME/mysql-$MYSQL_VERSION}
+
 "${MYSQL_DIR}/bin/mysqld" --defaults-file="${MYSQL_DIR}/my.cnf" --initialize-insecure
 
 (
