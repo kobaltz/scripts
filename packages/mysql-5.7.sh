@@ -19,17 +19,15 @@ MYSQL_PORT=${MYSQL_PORT:="3307"}
 set -e
 MYSQL_DIR=${MYSQL_DIR:=$HOME/mysql-$MYSQL_VERSION}
 
-echo "Remove Cache"
-rm -rf "$HOME/cache"
-CACHED_DOWNLOAD="${HOME}/cache/mysql-${MYSQL_VERSION}-linux-glibc2.5-x86_64.tar.gz"
+echo "Making MySQL DIR AT ${MYSQL_DIR}"
 mkdir -p "${MYSQL_DIR}"
-mkdir -p "${MYSQL_DIR}/cache"
+
 
 echo "Downloading MySQL 5.7.17"
-wget --output-document "${CACHED_DOWNLOAD}" "https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-${MYSQL_VERSION}-linux-glibc2.5-x86_64.tar.gz"
+wget "https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-${MYSQL_VERSION}-linux-glibc2.5-x86_64.tar.gz"
 
 echo "Extracting MySQL 5.7.17"
-tar -xaf "${CACHED_DOWNLOAD}" --strip-components=1 --directory "${MYSQL_DIR}"
+tar -xaf "mysql-${MYSQL_VERSION}-linux-glibc2.5-x86_64.tar.gz" --strip-components=1 --directory "${MYSQL_DIR}"
 
 echo "Making directories"
 mkdir -p "${MYSQL_DIR}/data"
