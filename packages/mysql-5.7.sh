@@ -11,83 +11,73 @@
 # * MYSQL_PORT
 #
 
-echo "Setting MySQL Variables"
-
-MYSQL_VERSION=${MYSQL_VERSION:="5.7.17"}
-MYSQL_PORT=${MYSQL_PORT:="3307"}
-
-set -e
-MYSQL_DIR=${MYSQL_DIR:=$HOME/mysql-$MYSQL_VERSION}
-
-echo "Making MySQL DIR AT ${MYSQL_DIR}"
-mkdir -p "${MYSQL_DIR}"
+echo "Making MySQL DIR"
+mkdir -p "/home/rof/mysql-5.7.17"
 
 
 echo "Downloading MySQL 5.7.17"
-wget "https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-${MYSQL_VERSION}-linux-glibc2.5-x86_64.tar.gz"
+cd "/home/rof/"
+wget "https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.17-linux-glibc2.5-x86_64.tar.gz"
 
 echo "Extracting MySQL 5.7.17"
-tar -xaf "mysql-${MYSQL_VERSION}-linux-glibc2.5-x86_64.tar.gz" --strip-components=1 --directory "${MYSQL_DIR}"
+tar -xaf "mysql-5.7.17-linux-glibc2.5-x86_64.tar.gz" --strip-components=1 --directory "/home/rof/mysql-5.7.17"
 
 echo "Making directories"
-mkdir -p "${MYSQL_DIR}/data"
-mkdir -p "${MYSQL_DIR}/socket"
-mkdir -p "${MYSQL_DIR}/log"
+mkdir -p "/home/rof/mysql-5.7.17/data"
+mkdir -p "/home/rof/mysql-5.7.17/socket"
+mkdir -p "/home/rof/mysql-5.7.17/log"
 
 echo "Writing my.cnf"
 echo "#
 # The MySQL 5.7 database server configuration file.
 #
 [client]
-port		= ${MYSQL_PORT}
-socket		= ${MYSQL_DIR}/socket/mysqld.sock
+port    = 3307
+socket    = /home/rof/mysql-5.7.17/socket/mysqld.sock
 
 # This was formally known as [safe_mysqld]. Both versions are currently parsed.
 [mysqld_safe]
-socket		= ${MYSQL_DIR}/socket/mysqld.sock
-nice		= 0
+socket    = /home/rof/mysql-5.7.17/socket/mysqld.sock
+nice    = 0
 
 [mysqld]
-user		= rof
-pid-file	= ${MYSQL_DIR}/mysqld.pid
-socket		= ${MYSQL_DIR}/socket/mysqld.sock
-port		= ${MYSQL_PORT}
-basedir		= ${MYSQL_DIR}/data
-datadir		= ${MYSQL_DIR}/data/mysql
-tmpdir		= /tmp
-lc-messages-dir	= ${MYSQL_DIR}/share/english
+user    = rof
+pid-file  = /home/rof/mysql-5.7.17/mysqld.pid
+socket    = /home/rof/mysql-5.7.17/socket/mysqld.sock
+port    = 3307
+basedir   = /home/rof/mysql-5.7.17/data
+datadir   = /home/rof/mysql-5.7.17/data/mysql
+tmpdir    = /tmp
+lc-messages-dir = /home/rof/mysql-5.7.17/share/english
 skip-external-locking
 
 # Instead of skip-networking the default is now to listen only on
 # localhost which is more compatible and is not less secure.
-bind-address		= 127.0.0.1
+bind-address    = 127.0.0.1
 
 # * Fine Tuning
-max_allowed_packet	= 16M
-thread_stack		= 192K
-thread_cache_size	= 8
+max_allowed_packet  = 16M
+thread_stack    = 192K
+thread_cache_size = 8
 
 # * Query Cache Configuration
-query_cache_limit	= 1M
+query_cache_limit = 1M
 query_cache_size        = 16M
 
 # * Logging and Replication
-log_error		= ${MYSQL_DIR}/log/error.log
+log_error   = /home/rof/mysql-5.7.17/log/error.log
 
 [mysqldump]
 quick
 quote-names
-max_allowed_packet	= 16M
+max_allowed_packet  = 16M
 
 [isamchk]
-key_buffer		= 16M
-" > "${MYSQL_DIR}/my.cnf"
+key_buffer    = 16M
+" > "/home/rof/mysql-5.7.17/my.cnf"
 
 echo "Writing MySQL Variables Again"
-MYSQL_VERSION=${MYSQL_VERSION:="5.7.17"}
-MYSQL_PORT=${MYSQL_PORT:="3307"}
-MYSQL_DIR=${MYSQL_DIR:=$HOME/mysql-$MYSQL_VERSION}
+
 
 echo "Launching MySQL Daemon"
-"${MYSQL_DIR}/bin/mysqld" --defaults-file="${MYSQL_DIR}/my.cnf" --initialize-insecure
-
+"/home/rof/mysql-5.7.17/bin/mysqld" --defaults-file="/home/rof/mysql-5.7.17/my.cnf" --initialize-insecure
