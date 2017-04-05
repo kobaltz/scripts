@@ -76,8 +76,15 @@ max_allowed_packet  = 16M
 key_buffer    = 16M
 " > "/home/rof/mysql-5.7.17/my.cnf"
 
-echo "Writing MySQL Variables Again"
-
-
 echo "Launching MySQL Daemon"
 "/home/rof/mysql-5.7.17/bin/mysqld" --defaults-file="/home/rof/mysql-5.7.17/my.cnf" --initialize-insecure
+
+(
+  cd "/home/rof/mysql-5.7.17" || exit 1
+  ./bin/mysqld_safe --defaults-file="/home/rof/mysql-5.7.17/my.cnf" &
+  sleep 10
+)
+
+"/home/rof/mysql-5.7.17/bin/mysql" --defaults-file="/home/rof/mysql-5.7.17/my.cnf" -u "root" -e "SET PASSWORD FOR root@'localhost' = PASSWORD('test');"
+
+
